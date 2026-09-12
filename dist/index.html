@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SoloDev — The Impossible Die Challenge</title>
+    <meta
+      name="description"
+      content="Roll a six-sided die across 3D boards to reach the glowing target tile in this deceptively impossible puzzle experience."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&family=VT323&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  <script type="module" crossorigin src="/assets/index-ChRVsTkl.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CKz7YBAX.css">
+
+  <body>
+    <!-- Screen Flash Overlay -->
+    <div id="white-flash" class="flash-overlay"></div>
+
+    <!-- Fooled Ya Overlay Banner -->
+    <div id="fooled-ya-banner" class="fooled-ya-banner hidden">
+      <div class="fooled-content">
+        <span class="fooled-icon">🃏</span>
+        <span class="fooled-text">Fooled ya! Solve the puzzle to get the REAL number</span>
+      </div>
+    </div>
+
+    <!-- Temporary Toast Notification -->
+    <div id="toast-notification" class="toast-notification hidden"></div>
+
+    <!-- LAYER 1: #start-screen (Default Visible) -->
+    <section id="start-screen" class="ui-layer">
+      <div class="background-mesh"></div>
+      <div class="start-card glass-panel">
+        <div class="badge">Useless Project 3.0</div>
+        <div class="die-icon-container">
+          <div class="floating-die">
+            <span class="pip pip-1"></span>
+            <span class="pip pip-2"></span>
+            <span class="pip pip-3"></span>
+            <span class="pip pip-4"></span>
+            <span class="pip pip-5"></span>
+          </div>
+        </div>
+        <h1 class="game-title">The Impossible Die</h1>
+        <p class="rules-text">
+          Rules: Roll a six sided die across a series of 3d boards and reach the glowing tile with right number facing upward.
+        </p>
+        <button id="start-btn" class="action-btn glow-btn" type="button">
+          <span>Start Game</span>
+          <svg class="btn-arrow" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
+        <div class="sub-hint">Warning: Physics may question your life choices.</div>
+      </div>
+    </section>
+
+    <!-- LAYER 2: #game-canvas (Hidden Initially) -->
+    <section id="game-canvas" class="ui-layer hidden">
+      <div id="three-container" class="three-viewport"></div>
+      <div class="game-hud">
+        <div class="hud-pill">
+          <span class="hud-label">DIE TOP:</span>
+          <span id="hud-die-face" class="hud-value text-accent">1</span>
+        </div>
+        <div class="hud-pill">
+          <span class="hud-label">TARGET:</span>
+          <span id="hud-target-num" class="hud-value">Tile (2, 2) with [5]</span>
+        </div>
+        <div class="hud-pill">
+          <span class="hud-label">POSITION:</span>
+          <span id="hud-die-pos" class="hud-value">(0, 0)</span>
+        </div>
+      </div>
+      <div class="game-overlay-hint">
+        Click adjacent tiles (North, South, East, West) to roll the die.
+      </div>
+    </section>
+
+    <!-- LAYER 3: #error-screen (Hidden Glitch BSOD Screen) -->
+    <section id="error-screen" class="ui-layer hidden bsod-screen">
+      <div class="scanlines"></div>
+      <div class="bsod-container">
+        <div class="bsod-emoticon">:(</div>
+        <h2 class="bsod-main-text">404 Error: Win Condition Not Found. Try again!</h2>
+        <p class="bsod-subtext">
+          Your human intuition ran into an unresolvable logical singularity and needs to restart.
+          We are not collecting any error info because we already know you made a mistake.
+        </p>
+        <div class="bsod-progress-row">
+          <span class="bsod-counter">0% complete</span>
+        </div>
+        <div class="bsod-details">
+          <div class="bsod-qr-box">
+            <div class="qr-mock"></div>
+          </div>
+          <div class="bsod-meta">
+            <p>For more information about this issue and potential waste of time, visit: <code>https://tinkerhub.org/useless-projects</code></p>
+            <p class="stop-code">Stop Code: CRITICAL_HOPE_FAILURE_0x00000404</p>
+            <p class="stop-code">What failed: confidence.sys</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LAYER 4: #puzzle-overlay (Hidden 2D Drag-and-Drop Puzzle Screen) -->
+    <section id="puzzle-overlay" class="ui-layer hidden">
+      <div class="puzzle-alert-box" id="puzzle-alert-box">
+        <span class="alert-icon">⚠️</span>
+        <span class="alert-text">Fooled ya! Solve the puzzle to get the REAL number</span>
+      </div>
+
+      <!-- Centered #drop-zone with stencil background -->
+      <div id="drop-zone" class="drop-zone"></div>
+
+      <!-- Completion Overlay Modal -->
+      <div id="puzzle-success-modal" class="puzzle-success-modal hidden">
+        <div class="success-card glass-panel">
+          <div class="diva-badge">✨ PROGRESS UNLOCKED ✨</div>
+          <h2 class="diva-title">Yas diva ur halfway there!</h2>
+          <div class="full-meme-preview" id="full-meme-preview">
+            <img src="/meme1/piece9.png" alt="Full Meme Revealed" class="revealed-meme-img" />
+          </div>
+          <button id="return-to-game-btn" class="action-btn glow-btn" type="button">
+            <span>Return to Game</span>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LAYER 5: #end-screen (Hidden Satirical End Screen) -->
+    <section id="end-screen" class="ui-layer hidden">
+      <div class="end-card glass-panel">
+        <div class="trophy-badge">🏆 LEVEL OF ACCOMPLISHMENT: ZERO</div>
+        <h2 class="end-title">Mission Accomplished?</h2>
+        <p class="end-statement">Congratulations! You have successfully wasted 5 minutes of your life.</p>
+        <p class="end-quote">
+          "Time you enjoy wasting was not wasted... except this time, this was genuinely 100% wasted."
+        </p>
+        <a
+          id="certificate-download-link"
+          href="assets/certificate_of_wasting_time.png"
+          download="certificate_of_wasting_time.png"
+          class="action-btn download-btn"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17" />
+          </svg>
+          <span>Claim Official Certificate of Wasting Time</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Developer/Review Mode Layer Preview Switcher (Floating Subtle Control) -->
+    <nav class="dev-preview-bar" aria-label="Layer Preview Switcher">
+      <span class="dev-label">Layer View:</span>
+      <button class="dev-btn active" data-target="start-screen">Start</button>
+      <button class="dev-btn" data-target="game-canvas">3D Game</button>
+      <button class="dev-btn" data-target="error-screen">BSOD (404)</button>
+      <button class="dev-btn" data-target="puzzle-overlay">2D Puzzle</button>
+      <button class="dev-btn" data-target="end-screen">End</button>
+    </nav>
+
+  </body>
+</html>
