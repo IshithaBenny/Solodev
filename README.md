@@ -5,7 +5,9 @@ Team Members
 Team Lead: Ishitha Benny - Christ College of Engineering
 
 Project Description
-A deceptively simple spatial reasoning game where players roll a 3D die across a coordinate grid to land on a target tile. Executing the perfect sequence triggers a fake system crash, forcing players to solve fragmented meme puzzles to discover the actual winning conditions.
+A deceptively simple spatial reasoning game where players roll a 3D die across a coordinate grid to land on a target tile.(cheat code on how to roll the die to the target spot with any c number on top is attached as image down below)  Executing the perfect sequence triggers a fake system crash, forcing players to solve fragmented meme puzzles to discover the actual winning number.Then when player rolls the die to the right tile with the right number, they'll get a downloadable certificate for wasting their time.<img width="620" height="567" alt="Screenshot 2026-09-12 193452" src="https://github.com/user-attachments/assets/c6511384-a011-4c2c-9455-0bf4d6626c5e" />
+<img width="620" height="567" alt="Screenshot 2026-09-12 193452" src="https://github.com/user-attachments/assets/d0cef748-4e97-45dd-977b-717d420d2932" />
+
 
 The Problem (that doesn't exist)
 Players have too much trust in standard video game win conditions and experience far too much joy when they successfully solve a spatial logic puzzle. The world desperately needs a game that actively gaslights them at the exact moment of triumph.
